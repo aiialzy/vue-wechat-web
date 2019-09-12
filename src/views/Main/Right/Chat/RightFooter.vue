@@ -47,8 +47,8 @@
       class="content-input list-wrap"
       contenteditable="true"
       @paste="handleCopy"
-      @keypress.ctrl.enter.exact.stop="handleLineFeed"
       @keypress.enter.exact.prevent.stop="handleSend"
+      @keydown.ctrl.enter.prevent.stop="handleLineFeed"
       @click="handleEditorFocus"
       @keyup="handleEditorFocus"
     ></pre>
@@ -222,7 +222,6 @@ export default {
         aMatch = aMatch.replace(/>$/, '&gt;');
         return aMatch;
       });
-      console.log(ctn);
 
       const myself = this.$store.state.myself;
       this.$store.commit("sendMessage", {

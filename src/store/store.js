@@ -34,7 +34,16 @@ const store = new Vuex.Store({
         linkmanIndex: 1,
         isMute: false,
         isOnTop: false,
-        messages: []
+        messages: [
+          {
+            avatar,
+            ctn: '你好',
+            nickname: '用户一',
+            sender: 'p1',
+            time: new Date('2011-01-11 11:11:11'),
+            type: 'chat',
+          }
+        ]
       }
     ],
     linkmans: [
