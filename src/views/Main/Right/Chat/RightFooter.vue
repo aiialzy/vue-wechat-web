@@ -42,13 +42,16 @@
         <i class="icon icon-file" @click.stop="alert"></i>
       </div>
     </div>
-    <div
+    <pre
       id="content-input"
       class="content-input list-wrap"
       contenteditable="true"
+      @paste="handleCopy"
       @keypress.ctrl.enter.exact.stop="handleLineFeed"
-      @keypress.enter.exact.stop="handleSend"
-    ></div>
+      @keypress.enter.exact.prevent.stop="handleSend"
+      @click="handleEditorFocus"
+      @keyup="handleEditorFocus"
+    ></pre>
     <div class="action">
       <div class="action-txt">按 Ctrl+Enter 进行换行</div>
       <button class="action-btn" @click="handleSend">发送</button>
@@ -64,12 +67,34 @@ import emojiSmall from "@/assets/emoji-small.png";
 import avatar from "@/assets/default.png";
 import spacer from "@/assets/spacer.gif";
 
+function handleMessage(ctnInput) {
+  let ctn = [];
+  for (let i = 0; i < ctnInput.childNodes.length; i++) {
+    const node = ctnInput.childNodes[i];
+    if (node.nodeType === Node.TEXT_NODE) {
+      ctn.push(node.textContent);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      if (node.nodeName.toUpperCase() === "IMG") {
+        const dataset = node.dataset;
+        ctn.push(`<img src="${spacer}" class="expression-icon-small" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; background: url(${dataset.url}) ${dataset.y}px ${dataset.x}px" />`);
+        //let img = `[${dataset.type} ${dataset.x} ${dataset.y}]`;
+        //ctn.push(img);
+      } else if (node.nodeName.toUpperCase() === "DIV") {
+        ctn.push("\n");
+        ctn.push(handleMessage(node));
+      }
+    }
+  }
+  return ctn.join("");
+}
+
 export default {
   name: "RightFooter",
   data() {
     return {
       expressions: [],
-      expressionIndex: 0
+      expressionIndex: 0,
+      lastEditRange: null
     };
   },
   created() {
@@ -131,45 +156,74 @@ export default {
       this.$store.commit("setMemberInfo", false);
       this.$store.commit("setExpression", !this.$store.state.isShowExpression);
     },
+    handleEditorFocus() {
+      this.lastEditRange = getSelection().getRangeAt(0);
+    },
     handleAddExpression(rIndex, cIndex) {
+      const ctnInput = document.querySelector("#content-input");
+      const scrollTop = ctnInput.scrollTop;
+
       let item = this.expressions[this.expressionIndex].items[rIndex][cIndex];
       let sx = item.sx;
       let sy = item.sy;
-      const img = document.createElement("img");
-      img.setAttribute("width", "20");
-      img.setAttribute("height", "20");
-      img.setAttribute("src", spacer);
-      img.setAttribute("class", "expression-icon-small");
-      img.style.setProperty(
-        "background",
-        `url("${this.expressions[this.expressionIndex].smallImg}") ${sy}px ${sx}px`
-      );
-      const ctn = document.querySelector("#content-input");
-      if (ctn.lastChild && ctn.lastChild.tagName === "DIV") {
-        if (
-          ctn.lastChild.firstChild &&
-          ctn.lastChild.firstChild.tagName === "BR"
-        ) {
-          ctn.lastChild.removeChild(ctn.lastChild.firstChild);
-        }
-        ctn.lastChild.append(img);
-      } else {
-        ctn.append(img);
+      const editor = document.querySelector("#content-input");
+      const selection = window.getSelection();
+      if (!selection.isCollapsed) {
+        document.execCommand("delete");
       }
+      editor.focus();
+      if (this.lastEditRange) {
+        selection.removeAllRanges();
+        selection.addRange(this.lastEditRange);
+      }
+      let type;
+      if (this.expressionIndex === 0) {
+        type = "qqfaces";
+      } else {
+        type = "emoji";
+      }
+      document.execCommand(
+        "insertHTML",
+        false,
+        `<img src="${spacer}" data-url="${this.expressions[this.expressionIndex].smallImg}" data-x="${sx}" data-y="${sy}" class="expression-icon-small" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; background: url(${this.expressions[this.expressionIndex].smallImg}) ${sy}px ${sx}px" />`
+      );
+
+      this.lastEditRange = selection.getRangeAt(0);
+      ctnInput.scrollTop = scrollTop;
     },
     handleLineFeed() {
-      const div = document.createElement("div");
-      const br = document.createElement("br");
-      div.append(br);
-      const ctn = document.querySelector("#content-input");
-      ctn.append(div);
+      document.execCommand("insertParagraph");
+      const ctnInput = document.querySelector("#content-input");
+      ctnInput.scrollTop += 22.4;
+    },
+    handleCopy(e) {
+      e.preventDefault();
+      //获取粘贴板内容
+      const ctn = e.clipboardData.getData("text");
+      const ctnInput = document.querySelector("#content-input");
+      document.execCommand("insertText", false, ctn);
     },
     handleSend() {
       const ctnInput = document.querySelector("#content-input");
-      let ctn = ctnInput.textContent.trim();
-      if (ctn === '') {
+      let ctn = handleMessage(ctnInput).trim();
+
+      if (ctn === "") {
         return;
       }
+
+      const reg = /\<\/?.*\>/gi;
+      const imgReg = /^<img.*>$/i;
+      ctn = ctn.replace(reg, (match, offset, string) => {
+        if (match.match(imgReg) !== null) {
+          return match;
+        }
+        let aMatch = match;
+        aMatch = aMatch.replace(/^</, '&lt;');
+        aMatch = aMatch.replace(/>$/, '&gt;');
+        return aMatch;
+      });
+      console.log(ctn);
+
       const myself = this.$store.state.myself;
       this.$store.commit("sendMessage", {
         type: "chat",
@@ -177,18 +231,18 @@ export default {
         sender: myself.id,
         nickname: myself.nickname,
         avatar: myself.avatar,
-        ctn,
+        ctn
       });
 
-      ctnInput.innerHTML = '';
-
       this.$nextTick(() => {
-        const content = document.querySelector('#content');
+        const content = document.querySelector("#content");
         content.scrollTop = content.scrollHeight;
+        document.execCommand("selectAll");
+        document.execCommand("delete");
       });
     },
     alert() {
-      alert('功能仍未实现');
+      alert("功能仍未实现");
     }
   }
 };
@@ -237,12 +291,14 @@ export default {
   height: 84px;
   min-width: 1px;
   padding-left: 20px;
+  margin: 0;
   outline: none;
   overflow: auto;
   color: #000;
   font-size: 14px;
-  line-height: 26px;
-  vertical-align: text-top;
+  line-height: 22.4px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .list-wrap {
@@ -267,7 +323,7 @@ export default {
   height: 30px;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .action-txt {
@@ -287,6 +343,7 @@ export default {
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
+  user-select: none;
 }
 
 .action-btn:hover {
@@ -367,11 +424,5 @@ export default {
   width: 28px;
   height: 28px;
   cursor: pointer;
-}
-
-.expression-icon-small {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
 }
 </style>

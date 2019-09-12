@@ -14,7 +14,7 @@
             <p class="msg-notice msg-time" v-if="isShowTime(index)">{{ time(msg.time) }}</p>
             <div class="msg-main-right" v-if="isMyself(msg.sender)">
               <div class="msg-right-wrap">
-                <div class="msg-ctn" style="background-color: #b2e281;">{{ msg.ctn }}</div>
+                <pre class="msg-ctn" style="background-color: #b2e281;" v-html="msg.ctn"></pre>
               </div>
               <img
                 :src="msg.avatar"
@@ -30,7 +30,7 @@
               />
               <div class="msg-right-wrap">
                 <div class="msg-nickname">{{ msg.nickname }}</div>
-                <div class="msg-ctn">{{ msg.ctn }}</div>
+                <div class="msg-ctn">{{ parseContent(msg.ctn) }}</div>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default {
         region: "这是地区",
         avatar
       };
-    }
+    },
   },
   methods: {
     isShowTime(index) {
@@ -108,7 +108,9 @@ export default {
     },
     time(date) {
       const d = new Date(date);
-      return `${d.getHours()}:${d.getMinutes()}`;
+      const h = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
+      const m = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
+      return `${h}:${m}`;
     },
     handleShowChatterInfo(event, index) {
       const { clientX: x, clientY: y } = event;
@@ -116,7 +118,7 @@ export default {
       this.infoPosition.left = x;
       this.chatterInfoIndex = index;
       this.$store.commit("setChatterInfo", true);
-    }
+    },
   }
 };
 </script>
@@ -249,5 +251,6 @@ export default {
   word-break: normal;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+  margin: 0;
 }
 </style>

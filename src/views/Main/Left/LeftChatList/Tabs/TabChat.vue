@@ -11,8 +11,8 @@
         <img style="width: 40px; height: 40px; border-radius: 2px;" :src="chat.avatar" />
       </div>
       <div class="chat-msg">
-        <span class="chat-msg-nickname">{{ chat.alias !== '' ? chat.alias : chat.nickname }}</span>
-        <span class="chat-msg-message">{{ chat.messages.length === 0 ? '' : chat.messages[chat.messages.length-1].ctn }}</span>
+        <div class="chat-msg-nickname">{{ chat.alias ? chat.alias : chat.nickname }}</div>
+        <pre class="chat-msg-message" v-html="chat.messages.length === 0 ? '' : chat.messages[chat.messages.length-1].ctn"></pre>
       </div>
       <div class="chat-info">
         <span
@@ -64,7 +64,10 @@ export default {
       this.$store.commit('setChatId', this.chats[index].chatId);
     },
     getTime(time) {
-      return `${time.getHours()}:${time.getMinutes()}`;
+      const d = time;
+      const h = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
+      const m = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
+      return `${h}:${m}`;
     }
   },
 };
@@ -106,13 +109,11 @@ export default {
 
 .chat-msg {
   flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .chat-msg-nickname {
   color: #fff;
+  height: 20px;
 }
 
 .chat-msg-message {
@@ -122,6 +123,8 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   width: 161px;
+  height: 20px;
+  margin: 0;
 }
 
 .chat-info {
