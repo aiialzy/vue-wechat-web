@@ -23,5 +23,5 @@
 * 直接点击登录界面的登录按钮即可直接进入主界面，无需帐号密码。
 
 ## 图片
-![登录与注册](https://raw.githubusercontent.com/aiialzy/myPictures/master/%E7%99%BB%E9%99%86%E6%B3%A8%E5%86%8C.png)
-![主界面](https://raw.githubusercontent.com/aiialzy/myPictures/master/%E4%B8%BB%E7%95%8C%E9%9D%A2.png)
+![登录与注册](https://raw.githubusercontent.com/aiialzy/pictures/master/2019-11-13-190028_1440x900_scrot.png)
+![主界面](https://raw.githubusercontent.com/aiialzy/pictures/master/2019-11-13-190226_1440x900_scrot.png)

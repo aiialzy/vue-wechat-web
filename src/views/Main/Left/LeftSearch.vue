@@ -2,16 +2,42 @@
   <div style="left-search-wrap">
     <div class="left-search-input-wrap" @click.stop="">
       <i class="left-search"></i>
-      <input class="left-search-input" placeholder="搜索" v-model="searchText" />
+      <input
+        class="left-search-input"
+        placeholder="搜索"
+        v-model="searchText"
+      />
     </div>
-    <div class="search-result-wrap list-wrap" v-if="isShowSearch" @click.stop="">
+    <div
+      class="search-result-wrap list-wrap"
+      v-if="isShowSearch"
+      @click.stop=""
+    >
       <div class="search-result-title" v-if="friends.length !== 0">好友</div>
-      <div v-for="(friend, index) in friends" :key="'friend' + index" class="search-result-friend" @click="handleNewChat(index, 0)">
+      <div
+        v-for="(friend, index) in friends"
+        :key="'friend' + index"
+        class="search-result-friend"
+        @click="handleNewChat(index, 0)"
+      >
         <img class="search-result-avatar" :src="friend.avatar" />
-        <div class="search-result-text">{{ friend.alias !== '' ? friend.alias : friend.nickname }}</div>
+        <div class="search-result-text">
+          {{ friend.alias !== "" ? friend.alias : friend.nickname }}
+        </div>
       </div>
-      <div class="search-result-title" style="margin-top: 10px;" v-if="groups.length !== 0">群组</div>
-      <div v-for="(group, index) in groups" :key="'group' + index" class="search-result-friend" @click="handleNewChat(index, 1)">
+      <div
+        class="search-result-title"
+        style="margin-top: 10px;"
+        v-if="groups.length !== 0"
+      >
+        群组
+      </div>
+      <div
+        v-for="(group, index) in groups"
+        :key="'group' + index"
+        class="search-result-friend"
+        @click="handleNewChat(index, 1)"
+      >
         <img class="search-result-avatar" :src="group.avatar" />
         <div class="search-result-text">{{ group.nickname }}</div>
       </div>
@@ -20,21 +46,21 @@
 </template>
 
 <script>
-import avatar from '@/assets/default.png';
+import avatar from "@/assets/default.png";
 
 export default {
-  name: 'LeftSearch',
+  name: "LeftSearch",
   data() {
     return {
-      searchText: '',
+      searchText: "",
       friends: [],
-      groups: [],
+      groups: []
     };
   },
   watch: {
     searchText(val) {
       const ctn = val.trim();
-      if (ctn === '') {
+      if (ctn === "") {
         this.handleHideSearchResult();
         return;
       }
@@ -48,17 +74,17 @@ export default {
   },
   methods: {
     handleHideSearchResult() {
-      this.$store.commit('setSearch', false);
+      this.$store.commit("setSearch", false);
     },
     handleShowSearchResult() {
       const linkmans = this.$store.state.linkmans;
       this.friends = [];
       this.groups = [];
 
-      linkmans.map((linkman) => {
+      linkmans.map(linkman => {
         const ctn = this.searchText.trim();
         if (linkman.nickname.includes(ctn) || linkman.alias.includes(ctn)) {
-          if (linkman.type === 'group') {
+          if (linkman.type === "group") {
             this.groups.push(linkman);
           } else {
             this.friends.push(linkman);
@@ -66,7 +92,7 @@ export default {
         }
       });
       if (this.friends.length !== 0 || this.groups.length !== 0) {
-        this.$store.commit('setSearch', true);
+        this.$store.commit("setSearch", true);
       }
     },
     handleNewChat(index, type) {
@@ -76,17 +102,17 @@ export default {
       } else {
         result = this.groups;
       }
-      const linkmans = this.$store.state.linkmans; 
-      for (let i=0; i<linkmans.length; i++) {
+      const linkmans = this.$store.state.linkmans;
+      for (let i = 0; i < linkmans.length; i++) {
         if (linkmans[i].id === result[index].id) {
-          this.$store.commit('addChat', i);
+          this.$store.commit("addChat", i);
           break;
         }
       }
-      this.searchText = '';
+      this.searchText = "";
     }
-  },
-}
+  }
+};
 </script>
 
 <style scoped>
@@ -109,7 +135,7 @@ export default {
   flex-grow: 1;
   background-color: #26292e;
   outline: none;
-  border:none;
+  border: none;
   color: #fff;
   font-size: 12px;
 }
@@ -174,5 +200,4 @@ export default {
   display: flex;
   align-items: center;
 }
-
 </style>

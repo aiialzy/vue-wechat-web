@@ -5,11 +5,13 @@
         v-for="(nav, index) in navs"
         :key="'nav' + index"
         class="left-chat-list-tab-icon-wrap"
-        :title=" nav.title"
+        :title="nav.title"
         @click="handleChangeTab(index)"
       >
-        <i class="left-chat-list-tab-icon"
-          :class="nav.icon + (index === currentNav ? '-selected' : '')"></i>
+        <i
+          class="left-chat-list-tab-icon"
+          :class="nav.icon + (index === currentNav ? '-selected' : '')"
+        ></i>
       </a>
     </div>
     <keep-alive>
@@ -19,16 +21,16 @@
 </template>
 
 <script>
-import TabChat from './Tabs/TabChat';
-import TabLinkman from './Tabs/TabLinkman';
-import TabArticle from './Tabs/TabArticle';
+import TabChat from "./Tabs/TabChat";
+import TabLinkman from "./Tabs/TabLinkman";
+import TabArticle from "./Tabs/TabArticle";
 
 export default {
   name: "LeftChatList",
   components: {
     TabChat,
     TabLinkman,
-    TabArticle,
+    TabArticle
   },
   data() {
     return {
@@ -36,19 +38,19 @@ export default {
         {
           title: "聊天",
           icon: "left-chat-list-tab-chat",
-          tab: TabChat,
+          tab: TabChat
         },
         {
           title: "通讯录",
           icon: "left-chat-list-tab-linkman",
-          tab: TabLinkman,
+          tab: TabLinkman
         },
         {
           title: "文章",
           icon: "left-chat-list-tab-article",
-          tab: TabArticle,
+          tab: TabArticle
         }
-      ],
+      ]
     };
   },
   computed: {
@@ -58,9 +60,9 @@ export default {
   },
   methods: {
     handleChangeTab(index) {
-      this.$store.commit('setCurrentTab', index);
+      this.$store.commit("setCurrentTab", index);
     }
-  },
+  }
 };
 </script>
 
@@ -81,7 +83,7 @@ export default {
 }
 
 .left-chat-list-tab-icon-wrap::after {
-  content: ' ';
+  content: " ";
   position: absolute;
   top: 7px;
   right: 0;
@@ -144,6 +146,4 @@ export default {
   border-radius: 10px;
   background-color: #000;
 }
-
-
 </style>

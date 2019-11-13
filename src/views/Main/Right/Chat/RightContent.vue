@@ -1,6 +1,10 @@
 <template>
   <div id="content" class="wrap list-wrap">
-    <info-block :visible="isShowChatterInfo" :memberInfo="chatterInfo" :infoPosition="infoPosition"></info-block>
+    <info-block
+      :visible="isShowChatterInfo"
+      :memberInfo="chatterInfo"
+      :infoPosition="infoPosition"
+    ></info-block>
     <div class="no-chat-wrap" v-if="isNoChat">
       <i class="icon icon-logo"></i>
       <div class="no-chat-text">未选择聊天</div>
@@ -11,10 +15,16 @@
         <div v-for="(msg, index) in messages" :key="'msg' + index">
           <p v-if="msg.type === 'notice'" class="msg-notice">{{ msg.ctn }}</p>
           <div v-if="msg.type === 'chat'" class="msg-chat">
-            <p class="msg-notice msg-time" v-if="isShowTime(index)">{{ time(msg.time) }}</p>
+            <p class="msg-notice msg-time" v-if="isShowTime(index)">
+              {{ time(msg.time) }}
+            </p>
             <div class="msg-main-right" v-if="isMyself(msg.sender)">
               <div class="msg-right-wrap">
-                <pre class="msg-ctn" style="background-color: #b2e281;" v-html="msg.ctn"></pre>
+                <pre
+                  class="msg-ctn"
+                  style="background-color: #b2e281;"
+                  v-html="msg.ctn"
+                ></pre>
               </div>
               <img
                 :src="msg.avatar"
@@ -91,7 +101,7 @@ export default {
         region: "这是地区",
         avatar
       };
-    },
+    }
   },
   methods: {
     isShowTime(index) {
@@ -108,8 +118,8 @@ export default {
     },
     time(date) {
       const d = new Date(date);
-      const h = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
-      const m = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
+      const h = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+      const m = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
       return `${h}:${m}`;
     },
     handleShowChatterInfo(event, index) {
@@ -118,7 +128,7 @@ export default {
       this.infoPosition.left = x;
       this.chatterInfoIndex = index;
       this.$store.commit("setChatterInfo", true);
-    },
+    }
   }
 };
 </script>

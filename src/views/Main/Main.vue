@@ -16,26 +16,25 @@
 </template>
 
 <script>
-import LeftHeader from './Left/LeftHeader';
-import LeftSearch from './Left/LeftSearch';
-import LeftChatList from './Left/LeftChatList/LeftChatList';
+import LeftHeader from "./Left/LeftHeader";
+import LeftSearch from "./Left/LeftSearch";
+import LeftChatList from "./Left/LeftChatList/LeftChatList";
 
-import Chat from './Right/Chat/Chat';
-import LinkmanInfo from './Right/LinkmanInfo/LinkmanInfo';
+import Chat from "./Right/Chat/Chat";
+import LinkmanInfo from "./Right/LinkmanInfo/LinkmanInfo";
 
 export default {
-  name: 'Main',
+  name: "Main",
   components: {
     LeftHeader,
     LeftSearch,
     LeftChatList,
-
     Chat,
-    LinkmanInfo,
+    LinkmanInfo
   },
   data() {
     return {
-      tabs: [Chat, LinkmanInfo],
+      tabs: [Chat, LinkmanInfo]
     };
   },
   computed: {
@@ -45,10 +44,10 @@ export default {
   },
   methods: {
     handleHide() {
-      this.$store.commit('hideAll');
+      this.$store.commit("hideAll");
     }
-  },
-}
+  }
+};
 </script>
 
 <style scoped>
@@ -76,6 +75,4 @@ export default {
   background-color: #eee;
   flex-grow: 1;
 }
-
-
 </style>

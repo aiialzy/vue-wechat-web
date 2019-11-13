@@ -1,7 +1,12 @@
 <template>
   <div style="height: 73px;">
     <div class="wrap">
-      <info-block :visible="isShowMemberInfo" :memberInfo="memberInfo" :infoPosition="infoPosition" :canChat="canChat"></info-block>
+      <info-block
+        :visible="isShowMemberInfo"
+        :memberInfo="memberInfo"
+        :infoPosition="infoPosition"
+        :canChat="canChat"
+      ></info-block>
       <div class="info-wrap">
         <div
           class="info-pack"
@@ -23,13 +28,19 @@
           <div class="member-wrap">
             <i class="icon icon-add-friends"></i>
           </div>
-          <div class="member-wrap" v-for="(member, index) in members" :key="'member' + index">
+          <div
+            class="member-wrap"
+            v-for="(member, index) in members"
+            :key="'member' + index"
+          >
             <img
               class="member-avatar"
               :src="member.avatar"
               @click.stop="handleShowMemberInfo($event, index)"
             />
-            <div class="member-nickname">{{ member.alias ? member.alias : member.nickname }}</div>
+            <div class="member-nickname">
+              {{ member.alias ? member.alias : member.nickname }}
+            </div>
           </div>
         </div>
       </div>
@@ -90,9 +101,9 @@ export default {
     nickname() {
       const linkman = getLinkman(this);
       if (linkman === null) {
-        return '';
+        return "";
       }
-      return linkman.alias !== '' ? linkman.alias : linkman.nickname;
+      return linkman.alias !== "" ? linkman.alias : linkman.nickname;
     },
     members() {
       const linkman = getLinkman(this);

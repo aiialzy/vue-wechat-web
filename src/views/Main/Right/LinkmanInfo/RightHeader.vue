@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: 'RightHeader',
-}
+  name: "RightHeader"
+};
 </script>
 
 <style scoped>

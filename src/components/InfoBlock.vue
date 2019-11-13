@@ -2,15 +2,30 @@
   <div
     class="member-info-wrap"
     :class="{ 'member-info-wrap-hidden': !visible }"
-    :style="{top: infoPosition.top + 'px', left: infoPosition.left + 'px'}"
-    @click.stop=";"
+    :style="{ top: infoPosition.top + 'px', left: infoPosition.left + 'px' }"
+    @click.stop=""
   >
-    <img class="member-info-avatar" :src="memberInfo.avatar" width="220" height="220" />
+    <img
+      class="member-info-avatar"
+      :src="memberInfo.avatar"
+      width="220"
+      height="220"
+    />
     <div class="member-info-detail">
       <div class="member-info-first-row">
         <div class="member-info-nickname">
           <span>{{ memberInfo.nickname }}</span>
-          <i :class="`icon ${ memberInfo.gender ? memberInfo.gender === 'man' ? 'icon-man' : 'icon-woman' : '' }`"></i>
+          <i
+            :class="
+              `icon ${
+                memberInfo.gender
+                  ? memberInfo.gender === 'man'
+                    ? 'icon-man'
+                    : 'icon-woman'
+                  : ''
+              }`
+            "
+          ></i>
         </div>
         <i class="icon icon-chat" v-if="canChat" @click.stop="newChat"></i>
       </div>
@@ -30,14 +45,17 @@
 import avatar from "@/assets/default.png";
 
 export default {
-  name: 'MemberInfo',
-  props: ['visible', 'memberInfo', 'infoPosition', 'canChat'],
+  name: "MemberInfo",
+  props: ["visible", "memberInfo", "infoPosition", "canChat"],
   methods: {
     newChat() {
-      this.$store.commit('addChat', this.$store.state.linkmans.indexOf(this.memberInfo));
-      this.$store.commit('hideAll');
+      this.$store.commit(
+        "addChat",
+        this.$store.state.linkmans.indexOf(this.memberInfo)
+      );
+      this.$store.commit("hideAll");
     }
-  },
+  }
 };
 </script>
 

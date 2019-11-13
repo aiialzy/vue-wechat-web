@@ -1,7 +1,9 @@
 <template>
   <div class="right-content-wrap">
     <img class="avatar" :src="linkman.avatar" />
-    <h4 class="nickname">{{ linkman.alias ? linkman.alias : linkman.nickname }}</h4>
+    <h4 class="nickname">
+      {{ linkman.alias ? linkman.alias : linkman.nickname }}
+    </h4>
     <button class="button" @click="sendMessage">发消息</button>
   </div>
 </template>
@@ -19,7 +21,7 @@ export default {
   },
   methods: {
     sendMessage() {
-      this.$store.commit('addChat', this.$store.state.currentLinkman);
+      this.$store.commit("addChat", this.$store.state.currentLinkman);
     }
   }
 };

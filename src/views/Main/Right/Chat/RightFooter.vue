@@ -2,17 +2,19 @@
   <div class="wrap" :style="{ visibility: isNoChat ? 'hidden' : 'visible' }">
     <div
       class="expression-wrap"
-      :class="{ 'expression-wrap-hidden': !isShowExpression}"
-      @click.stop=";"
+      :class="{ 'expression-wrap-hidden': !isShowExpression }"
+      @click.stop=""
     >
       <div class="expression-header">
         <div
           v-for="(expression, index) in expressions"
           :key="'expression' + index"
           class="expression-item"
-          :class="{ 'expression-item-selected': expressionIndex === index}"
+          :class="{ 'expression-item-selected': expressionIndex === index }"
           @click.stop="expressionIndex = index"
-        >{{ expression.title }}</div>
+        >
+          {{ expression.title }}
+        </div>
       </div>
       <div class="expression-content list-wrap">
         <div
@@ -25,7 +27,9 @@
             :key="'eCol' + cIndex"
             :title="col.title"
             class="expression-icon"
-            :style="{'background': `url(${expressions[expressionIndex].img}) ${col.y}px ${col.x}px`}"
+            :style="{
+              background: `url(${expressions[expressionIndex].img}) ${col.y}px ${col.x}px`
+            }"
             @click="handleAddExpression(rIndex, cIndex)"
           ></a>
         </div>
@@ -76,7 +80,9 @@ function handleMessage(ctnInput) {
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       if (node.nodeName.toUpperCase() === "IMG") {
         const dataset = node.dataset;
-        ctn.push(`<img src="${spacer}" class="expression-icon-small" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; background: url(${dataset.url}) ${dataset.y}px ${dataset.x}px" />`);
+        ctn.push(
+          `<img src="${spacer}" class="expression-icon-small" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; background: url(${dataset.url}) ${dataset.y}px ${dataset.x}px" />`
+        );
         //let img = `[${dataset.type} ${dataset.x} ${dataset.y}]`;
         //ctn.push(img);
       } else if (node.nodeName.toUpperCase() === "DIV") {
@@ -185,7 +191,11 @@ export default {
       document.execCommand(
         "insertHTML",
         false,
-        `<img src="${spacer}" data-url="${this.expressions[this.expressionIndex].smallImg}" data-x="${sx}" data-y="${sy}" class="expression-icon-small" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; background: url(${this.expressions[this.expressionIndex].smallImg}) ${sy}px ${sx}px" />`
+        `<img src="${spacer}" data-url="${
+          this.expressions[this.expressionIndex].smallImg
+        }" data-x="${sx}" data-y="${sy}" class="expression-icon-small" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; background: url(${
+          this.expressions[this.expressionIndex].smallImg
+        }) ${sy}px ${sx}px" />`
       );
 
       this.lastEditRange = selection.getRangeAt(0);
@@ -218,8 +228,8 @@ export default {
           return match;
         }
         let aMatch = match;
-        aMatch = aMatch.replace(/^</, '&lt;');
-        aMatch = aMatch.replace(/>$/, '&gt;');
+        aMatch = aMatch.replace(/^</, "&lt;");
+        aMatch = aMatch.replace(/>$/, "&gt;");
         return aMatch;
       });
 

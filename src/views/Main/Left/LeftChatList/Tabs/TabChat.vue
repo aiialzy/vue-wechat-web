@@ -4,23 +4,51 @@
       v-for="(chat, index) in chats"
       :key="'chat' + index"
       class="chat-wrap"
-      :class="{ 'chat-wrap-top': chat.isOnTop, 'chat-wrap-selected': currentChatIndex === index }"
+      :class="{
+        'chat-wrap-top': chat.isOnTop,
+        'chat-wrap-selected': currentChatIndex === index
+      }"
       @click="handleChangeChat(index)"
     >
       <div class="chat-avatar">
-        <img style="width: 40px; height: 40px; border-radius: 2px;" :src="chat.avatar" />
+        <img
+          style="width: 40px; height: 40px; border-radius: 2px;"
+          :src="chat.avatar"
+        />
       </div>
       <div class="chat-msg">
-        <div class="chat-msg-nickname">{{ chat.alias ? chat.alias : chat.nickname }}</div>
-        <pre class="chat-msg-message" v-html="chat.messages.length === 0 ? '' : chat.messages[chat.messages.length-1].ctn"></pre>
+        <div class="chat-msg-nickname">
+          {{ chat.alias ? chat.alias : chat.nickname }}
+        </div>
+        <pre
+          class="chat-msg-message"
+          v-html="
+            chat.messages.length === 0
+              ? ''
+              : chat.messages[chat.messages.length - 1].ctn
+          "
+        ></pre>
       </div>
       <div class="chat-info">
         <span
           class="chat-info-time"
-          :style="{ color: currentChatIndex === index ? '#fff' : ''}"
-        >{{ chat.messages.length === 0 ? '' : getTime(chat.messages[chat.messages.length - 1].time) }}</span>
+          :style="{ color: currentChatIndex === index ? '#fff' : '' }"
+          >{{
+            chat.messages.length === 0
+              ? ""
+              : getTime(chat.messages[chat.messages.length - 1].time)
+          }}</span
+        >
         <div class="chat-info-icon-wrap" v-if="chat.isMute">
-          <i :class="`icon ${currentChatIndex === index ? 'icon-mute-light' : 'icon-mute-dark' }`"></i>
+          <i
+            :class="
+              `icon ${
+                currentChatIndex === index
+                  ? 'icon-mute-light'
+                  : 'icon-mute-dark'
+              }`
+            "
+          ></i>
         </div>
       </div>
     </div>
@@ -33,26 +61,25 @@ import avatar from "@/assets/default.png";
 export default {
   name: "TabChat",
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     chats() {
       const linkmans = this.$store.state.linkmans;
       return this.$store.state.chats
-              .map((chat) => {
-                return {
-                  ...chat,
-                  ...linkmans[chat.linkmanIndex],
-                  message: null,
-                }
-              })
-              .sort((a, b) => {
-                return a.isOnTop ? -1 : 0;
-              });
+        .map(chat => {
+          return {
+            ...chat,
+            ...linkmans[chat.linkmanIndex],
+            message: null
+          };
+        })
+        .sort((a, b) => {
+          return a.isOnTop ? -1 : 0;
+        });
     },
     currentChatIndex() {
-      for (let i=0; i<this.chats.length; i++) {
+      for (let i = 0; i < this.chats.length; i++) {
         if (this.chats[i].chatId === this.$store.state.currentChatId) {
           return i;
         }
@@ -61,15 +88,15 @@ export default {
   },
   methods: {
     handleChangeChat(index) {
-      this.$store.commit('setChatId', this.chats[index].chatId);
+      this.$store.commit("setChatId", this.chats[index].chatId);
     },
     getTime(time) {
       const d = time;
-      const h = d.getHours() < 10 ? '0'+d.getHours() : d.getHours();
-      const m = d.getMinutes() < 10 ? '0'+d.getMinutes() : d.getMinutes();
+      const h = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+      const m = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
       return `${h}:${m}`;
     }
-  },
+  }
 };
 </script>
 
@@ -101,7 +128,6 @@ export default {
   background-color: #3a3f45;
   color: #fff;
 }
-
 
 .chat-avatar {
   margin-right: 10px;
@@ -159,6 +185,4 @@ export default {
 .icon-mute-dark {
   background-position: -401px -357px;
 }
-
-
 </style>

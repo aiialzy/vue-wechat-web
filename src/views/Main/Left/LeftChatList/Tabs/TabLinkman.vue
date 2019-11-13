@@ -6,14 +6,18 @@
         v-for="(linkman, lIndex) in kind.linkmans"
         :key="'linkman' + lIndex"
         class="wrap"
-        :class="{ 'wrap-selected': currentLinkman === 'k'+index+'l'+lIndex }"
-        @click="handleShowDetail(index, lIndex)" 
+        :class="{
+          'wrap-selected': currentLinkman === 'k' + index + 'l' + lIndex
+        }"
+        @click="handleShowDetail(index, lIndex)"
         @dblclick="handleNewChat(index, lIndex)"
       >
         <div class="avatar-wrap">
           <img class="avatar" :src="linkman.avatar" />
         </div>
-        <div class="nickname">{{ linkman.alias ? linkman.alias : linkman.nickname }}</div>
+        <div class="nickname">
+          {{ linkman.alias ? linkman.alias : linkman.nickname }}
+        </div>
       </div>
     </div>
   </div>
@@ -41,7 +45,7 @@ export default {
             title: linkman.type === "group" ? "群组" : linkman.type,
             linkmans: []
           });
-          
+
           currentType = linkman.type;
           kindCount += 1;
         }
@@ -52,28 +56,28 @@ export default {
   },
   methods: {
     handleShowDetail(kindIndex, lIndex) {
-      this.currentLinkman = 'k'+kindIndex+'l'+lIndex;
+      this.currentLinkman = "k" + kindIndex + "l" + lIndex;
       const id = this.kinds[kindIndex].linkmans[lIndex].id;
 
       const linkmans = this.$store.state.linkmans;
-      this.$store.commit('setCurrentRight', 1);
-      for (let i=0; i<linkmans.length; i++) {
+      this.$store.commit("setCurrentRight", 1);
+      for (let i = 0; i < linkmans.length; i++) {
         if (id === linkmans[i].id) {
-          this.$store.commit('setCurrentLinkman', i);
+          this.$store.commit("setCurrentLinkman", i);
           break;
         }
       }
     },
     handleNewChat(kindIndex, lIndex) {
-      for (let i=0;  i<this.$store.state.linkmans.length; i++) {
+      for (let i = 0; i < this.$store.state.linkmans.length; i++) {
         const linkman = this.$store.state.linkmans[i];
         if (linkman.id === this.kinds[kindIndex].linkmans[lIndex].id) {
-          this.$store.commit('addChat', i);
+          this.$store.commit("addChat", i);
           return;
         }
       }
     }
-  },
+  }
 };
 </script>
 

@@ -2,15 +2,29 @@
   <div class="wrap">
     <div class="login-box">
       <div class="login-title-wrap">
-        <div class="login-title" :class="{ 'login-title-selected': isLogin }" @click="isLogin=true">登录</div>
-        <div class="login-title" :class="{ 'login-title-selected': !isLogin }" @click="isLogin=false">注册</div>
+        <div
+          class="login-title"
+          :class="{ 'login-title-selected': isLogin }"
+          @click="isLogin = true"
+        >
+          登录
+        </div>
+        <div
+          class="login-title"
+          :class="{ 'login-title-selected': !isLogin }"
+          @click="isLogin = false"
+        >
+          注册
+        </div>
       </div>
       <div class="login-main-wrap" v-if="isLogin">
         <div class="login-main-title">欢迎登录</div>
         <div class="login-main-input">
           <input class="login-input" type="email" placeholder="邮箱" />
           <input class="login-input" type="password" placeholder="密码" />
-          <button class="login-btn login-btn-login" @click="handleLogin">登 录</button>
+          <button class="login-btn login-btn-login" @click="handleLogin">
+            登 录
+          </button>
         </div>
       </div>
       <div class="login-main-wrap" v-else>
@@ -28,18 +42,18 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
-      isLogin: true,
+      isLogin: true
     };
   },
   methods: {
     handleLogin() {
-      this.$router.push('main');
+      this.$router.push("main");
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -93,7 +107,8 @@ export default {
   font-size: 24px;
 }
 
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
   color: #d4d4d4;
 }
 
@@ -142,5 +157,4 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .login-btn:active {
   background-color: #28af62;
 }
-
 </style>

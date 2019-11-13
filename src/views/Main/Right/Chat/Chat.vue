@@ -7,18 +7,18 @@
 </template>
 
 <script>
-import RightHeader from './RightHeader';
-import RightContent from './RightContent';
-import RightFooter from './RightFooter';
+import RightHeader from "./RightHeader";
+import RightContent from "./RightContent";
+import RightFooter from "./RightFooter";
 
 export default {
-  name: 'Chat',
+  name: "Chat",
   components: {
     RightHeader,
     RightContent,
-    RightFooter,
+    RightFooter
   }
-}
+};
 </script>
 
 <style scoped>

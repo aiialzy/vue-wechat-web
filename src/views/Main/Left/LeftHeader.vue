@@ -1,28 +1,37 @@
 <template>
   <div class="left-header-wrap">
-    <info-block :visible="isShowMyInfo" :memberInfo="myInfo" :infoPosition="infoPosition" :canChat="false"></info-block>
+    <info-block
+      :visible="isShowMyInfo"
+      :memberInfo="myInfo"
+      :infoPosition="infoPosition"
+      :canChat="false"
+    ></info-block>
     <div class="avatar">
-      <img class="avatar-img" :src="avatar" @click.stop="handleShowMyInfo($event)" />
+      <img
+        class="avatar-img"
+        :src="avatar"
+        @click.stop="handleShowMyInfo($event)"
+      />
     </div>
     <div class="nickName">{{ nickname }}</div>
   </div>
 </template>
 
 <script>
-import img from '@/assets/default.png';
-import InfoBlock from '@/components/InfoBlock';
+import img from "@/assets/default.png";
+import InfoBlock from "@/components/InfoBlock";
 
 export default {
-  name: 'LeftHeader',
+  name: "LeftHeader",
   components: {
-    InfoBlock,
+    InfoBlock
   },
   data() {
     return {
       infoPosition: {
         left: -1,
-        top: -1,
-      },
+        top: -1
+      }
     };
   },
   computed: {
@@ -45,9 +54,9 @@ export default {
       this.infoPosition.top = y;
       this.infoPosition.left = x;
       this.$store.commit("setMyInfo", true);
-    },
-  },
-}
+    }
+  }
+};
 </script>
 
 <style scoped>

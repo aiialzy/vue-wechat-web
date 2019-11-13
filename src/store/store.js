@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     currentRight: 0,
     currentLinkman: 0,
     myself: {
-      id: 'p0',
+      id: "p0",
       avatar: user,
       nickname: "你自己",
       gender: "",
@@ -37,11 +37,11 @@ const store = new Vuex.Store({
         messages: [
           {
             avatar,
-            ctn: '你好',
-            nickname: '用户一',
-            sender: 'p1',
-            time: new Date('2011-01-11 11:11:11'),
-            type: 'chat',
+            ctn: "你好",
+            nickname: "用户一",
+            sender: "p1",
+            time: new Date("2011-01-11 11:11:11"),
+            type: "chat"
           }
         ]
       }
@@ -152,7 +152,7 @@ const store = new Vuex.Store({
     addChat(state, linkmanIndex) {
       state.currentTabIndex = 0;
       state.currentRight = 0;
-      for (let i=0; i<state.chats.length; i++) {
+      for (let i = 0; i < state.chats.length; i++) {
         let chat = state.chats[i];
         if (chat.linkmanIndex === linkmanIndex) {
           state.chats.splice(i, 1);
@@ -161,13 +161,15 @@ const store = new Vuex.Store({
           return;
         }
       }
-      state.chats = [{
-        linkmanIndex,
-        chatId: state.chatCount,
-        isMute: false,
-        isOnTop: false,
-        messages: []
-      }].concat(state.chats);
+      state.chats = [
+        {
+          linkmanIndex,
+          chatId: state.chatCount,
+          isMute: false,
+          isOnTop: false,
+          messages: []
+        }
+      ].concat(state.chats);
       state.currentChatId = state.chatCount;
 
       state.chatCount += 1;

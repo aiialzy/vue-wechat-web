@@ -1,6 +1,10 @@
 <template>
   <div class="left-chat-list-tab-wrap">
-    <div class="article" v-for="(article, index) in articles" :key="'article' + index">
+    <div
+      class="article"
+      v-for="(article, index) in articles"
+      :key="'article' + index"
+    >
       <div class="info-wrap">
         <div class="avatar-wrap">
           <img :src="article.avatar" class="avatar" />
@@ -31,7 +35,7 @@ export default {
   data() {
     return {
       articles: [],
-      currentArticle: -1,
+      currentArticle: -1
     };
   },
   mounted() {

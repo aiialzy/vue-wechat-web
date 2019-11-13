@@ -6,18 +6,16 @@
 </template>
 
 <script>
-import RightHeader from './RightHeader';
-import RightContent from './RightContent';
+import RightHeader from "./RightHeader";
+import RightContent from "./RightContent";
 
 export default {
-  name: 'LinkmanInfo',
+  name: "LinkmanInfo",
   components: {
     RightHeader,
-    RightContent,
+    RightContent
   }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
